@@ -95,12 +95,12 @@ namespace SMART_TAX_API.Services
             return response;
         }
 
-        public Response<List<COMPANY_VERTICALS>> GetCompanyVerticals()
+        public Response<COMPANY> GetCompanyMasterDetails(int ID)
         {
             string dbConn = _config.GetConnectionString("ConnectionString");
 
-            Response<List<COMPANY_VERTICALS>> response = new Response<List<COMPANY_VERTICALS>>();
-            var data = DbClientFactory<CompanyRepo>.Instance.GetCompanyVerticals(dbConn);
+            Response<COMPANY> response = new Response<COMPANY>();
+            var data = DbClientFactory<CompanyRepo>.Instance.GetCompanyMasterDetails(dbConn, ID);
 
             if (data != null)
             {
@@ -114,6 +114,41 @@ namespace SMART_TAX_API.Services
                 response.Succeeded = false;
                 response.ResponseCode = 500;
                 response.ResponseMessage = "No Data";
+            }
+
+            return response;
+        }
+
+        public Response<VALIDATE_COMPANY> ValidateCompany(string CIN_NO, string PAN_NO)
+        {
+            string dbConn = _config.GetConnectionString("ConnectionString");
+
+            Response<VALIDATE_COMPANY> response = new Response<VALIDATE_COMPANY>();
+            var data = DbClientFactory<CompanyRepo>.Instance.ValidateComapny(dbConn, CIN_NO,PAN_NO);
+
+            if (data != null)
+            {
+                if (data.CIN_NO != null)
+                {
+                    response.Succeeded = true;
+                    response.ResponseCode = 200;
+                    response.ResponseMessage = "Success";
+                    response.Data = data;
+                }
+                else if (data.PAN != null)
+                {
+                    response.Succeeded = true;
+                    response.ResponseCode = 200;
+                    response.ResponseMessage = "Success";
+                    response.Data = data;
+                }
+            }
+            else 
+            {
+                response.Succeeded = true;
+                response.ResponseCode = 200;
+                response.ResponseMessage = "Success";
+                response.Data = data;
             }
 
             return response;

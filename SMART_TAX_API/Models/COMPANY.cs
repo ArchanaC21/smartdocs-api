@@ -8,6 +8,7 @@ namespace SMART_TAX_API.Models
     public class COMPANY
     {
         public int ID { get; set; }
+        public string CIN_NO { get; set; }
         public string NAME { get; set; }
         public string FORMER_NAME { get; set; }
         public string SHORT_NAME { get; set; }
@@ -18,8 +19,6 @@ namespace SMART_TAX_API.Models
         public string CITY { get; set; }
         public string STATE { get; set; }
         public string PIN { get; set; }
-        public string LANDLINE_NO_1 { get; set; }
-        public string LANDLINE_NO_2 { get; set; }
         public string MOBILE_NO_1 { get; set; }
         public string MOBILE_NO_2 { get; set; }
         public string EMAIL_ID_1 { get; set; }
@@ -36,9 +35,9 @@ namespace SMART_TAX_API.Models
 
     }
 
-    public class COMPANY_VERTICALS
+    public class VALIDATE_COMPANY
     {
-        public int ID { get; set; }
-        public string NAME { get; set; }
+        public string CIN_NO { get; set; }
+        public string PAN { get; set; }
     }
 }

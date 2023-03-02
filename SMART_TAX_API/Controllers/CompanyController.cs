@@ -34,6 +34,12 @@ namespace SMART_TAX_API.Controllers
             return Ok(JsonConvert.SerializeObject(_companyService.GetCompany()));
         }
 
+        [HttpGet("GetCompanyMasterDetails")]
+        public ActionResult<Response<COMPANY>> GetCompanyMasterDetails(int ID)
+        {
+            return Ok(JsonConvert.SerializeObject(_companyService.GetCompanyMasterDetails(ID)));
+        }
+
         [HttpPost("UpdateCompany")]
         public ActionResult<Response<CommonResponse>> UpdateCompany(COMPANY request)
         {
@@ -46,12 +52,11 @@ namespace SMART_TAX_API.Controllers
             return Ok(JsonConvert.SerializeObject(_companyService.DeleteCompany(Company_ID)));
         }
 
-        [HttpGet("GetCompanyVerticals")]
-        public ActionResult<Response<List<COMPANY_VERTICALS>>> GetCompanyVerticals()
+        [HttpGet("ValidateCompany")]
+        public ActionResult<Response<VALIDATE_COMPANY>> ValidateCompany(string CIN_NO, string PAN_NO)
         {
-            return Ok(JsonConvert.SerializeObject(_companyService.GetCompanyVerticals()));
+            return Ok(JsonConvert.SerializeObject(_companyService.ValidateCompany(CIN_NO,PAN_NO)));
         }
-
 
     }
 }

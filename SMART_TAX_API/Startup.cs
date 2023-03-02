@@ -47,8 +47,10 @@ namespace SMART_TAX_API
                     });
             });
 
+            services.AddScoped<ICommonService, CommonService>();
             services.AddScoped<ICompanyService, CompanyService>();
             services.AddScoped<IFormService, FormService>();
+            services.AddScoped<IAssessmentYearService, AssessmentYearService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
