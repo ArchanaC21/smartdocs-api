@@ -54,6 +54,7 @@ namespace SMART_TAX_API
             services.AddScoped<ICompanyService, CompanyService>();
             services.AddScoped<IFormService, FormService>();
             services.AddScoped<IAssessmentYearService, AssessmentYearService>();
+            services.AddScoped<IAuditService, AuditIssueService>();
             services.AddScoped<IBalanceSheetService, BalanceSheetService>();
             services.AddScoped<INotificationService, NotificationService>();
         }
