@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
@@ -11,6 +13,7 @@ using SMART_TAX_API.IServices;
 using SMART_TAX_API.Services;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -51,6 +54,8 @@ namespace SMART_TAX_API
             services.AddScoped<ICompanyService, CompanyService>();
             services.AddScoped<IFormService, FormService>();
             services.AddScoped<IAssessmentYearService, AssessmentYearService>();
+            services.AddScoped<IBalanceSheetService, BalanceSheetService>();
+            services.AddScoped<INotificationService, NotificationService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,6 +69,13 @@ namespace SMART_TAX_API
             }
 
             app.UseCors();
+
+            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Resources")),
+                RequestPath = new PathString("/Resources")
+            });
 
             app.UseHttpsRedirection();
 
