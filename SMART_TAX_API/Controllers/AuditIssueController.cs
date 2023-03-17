@@ -40,7 +40,7 @@ namespace SMART_TAX_API.Controllers
             return Ok(JsonConvert.SerializeObject(_auditIssueService.GetDetails(ID)));
         }
 
-        [HttpPost("UpdateAuditIssue")]
+        [HttpPut("UpdateAuditIssue")]
         public ActionResult<Response<string>> UpdateAuditIssue(AUDIT_ISSUE request)
         {
             return Ok(_auditIssueService.UpdateAuditIssue(request));

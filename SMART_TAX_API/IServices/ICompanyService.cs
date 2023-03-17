@@ -13,8 +13,8 @@ namespace SMART_TAX_API.IServices
         Response<string> InsertCompanyMaster(COMPANY request);
         Response<List<COMPANY>> GetCompany();
         Response<COMPANY> GetCompanyMasterDetails(int ID);
-        Response<CommonResponse> UpdateCompany(COMPANY request);
-        Response<CommonResponse> DeleteCompany(int Company_ID);
+        Response<string> UpdateCompany(COMPANY request);
+        Response<string> DeleteCompany(int Company_ID);
         Response<VALIDATE_COMPANY> ValidateCompany(string CIN_NO, string PAN_NO);
 
     }

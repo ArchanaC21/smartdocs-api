@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using SMART_TAX_API.Helpers;
@@ -23,11 +24,12 @@ namespace SMART_TAX_API.Controllers
         }
 
         [HttpPost("InsertCompanyMaster")]
-        public ActionResult<Response<CommonResponse>> InsertCompanyMaster(COMPANY request)
+        public ActionResult<Response<string>> InsertCompanyMaster(COMPANY request)
         {
             return Ok(_companyService.InsertCompanyMaster(request));
         }
 
+        [Authorize]
         [HttpGet("GetCompany")]
         public ActionResult<Response<List<COMPANY>>> GetCompany()
         {
@@ -40,14 +42,14 @@ namespace SMART_TAX_API.Controllers
             return Ok(JsonConvert.SerializeObject(_companyService.GetCompanyMasterDetails(ID)));
         }
 
-        [HttpPost("UpdateCompany")]
-        public ActionResult<Response<CommonResponse>> UpdateCompany(COMPANY request)
+        [HttpPut("UpdateCompany")]
+        public ActionResult<Response<string>> UpdateCompany(COMPANY request)
         {
             return Ok(_companyService.UpdateCompany(request));
         }
 
         [HttpDelete("DeleteCompany")]
-        public ActionResult<Response<CommonResponse>> DeleteCompany(int Company_ID)
+        public ActionResult<Response<string>> DeleteCompany(int Company_ID)
         {
             return Ok(JsonConvert.SerializeObject(_companyService.DeleteCompany(Company_ID)));
         }

@@ -59,11 +59,11 @@ namespace SMART_TAX_API.Services
             return response;
         }
 
-        public Response<CommonResponse> UpdateCompany(COMPANY request)
+        public Response<string> UpdateCompany(COMPANY request)
         {
             string dbConn = _config.GetConnectionString("ConnectionString");
 
-            Response<CommonResponse> response = new Response<CommonResponse>();
+            Response<string> response = new Response<string>();
             DbClientFactory<CompanyRepo>.Instance.UpdateCompany(dbConn, request);
 
             response.Succeeded = true;
@@ -73,11 +73,11 @@ namespace SMART_TAX_API.Services
             return response;
         }
 
-        public Response<CommonResponse> DeleteCompany(int Company_ID)
+        public Response<string> DeleteCompany(int Company_ID)
         {
             string dbConn = _config.GetConnectionString("ConnectionString");
 
-            Response<CommonResponse> response = new Response<CommonResponse>();
+            Response<string> response = new Response<string>();
 
             if ((Company_ID == 0) || (Company_ID == 0))
             {
