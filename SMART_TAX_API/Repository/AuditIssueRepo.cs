@@ -14,12 +14,14 @@ namespace SMART_TAX_API.Repository
     {
         public void InsertAudit(string connstring, AUDIT_ISSUE request)
         {
-            
+
             try
             {
                 SqlParameter[] parameters =
                 {
                  new SqlParameter("@OPERATION",SqlDbType.NVarChar,255) { Value = "INSERT_AUDIT_ISSUE" },
+                 new SqlParameter("@COMPANY_ID",SqlDbType.Int) {Value=request.COMPANY_ID },
+                 new SqlParameter("@ASSESSMENT_YEAR",SqlDbType.NVarChar,50) {Value=request.ASSESSMENT_YEAR },
                  new SqlParameter("@ISSUE",SqlDbType.NVarChar,255) {Value=request.ISSUE },
                  new SqlParameter("@RAISED_DATE",SqlDbType.Date){Value=request.RAISED_DATE },
                  new SqlParameter("@DUE_DATE",SqlDbType.Date){Value=request.DUE_DATE },

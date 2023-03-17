@@ -39,7 +39,7 @@ namespace SMART_TAX_API.Controllers
             return Ok(JsonConvert.SerializeObject(_assessmentYearService.GetAssYearDetails(CompanyID,AssessmentYear)));
         }
 
-        [HttpPost("UpdateAssessmentForm")]
+        [HttpPut("UpdateAssessmentForm")]
         public ActionResult<Response<string>> UpdateAssessmentForm(ASSESSMENT_YEAR_MASTER request)
         {
             return Ok(_assessmentYearService.UpdateAssessmentYearForm(request));

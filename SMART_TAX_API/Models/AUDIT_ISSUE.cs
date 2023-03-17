@@ -9,7 +9,8 @@ namespace SMART_TAX_API.Models
     public class AUDIT_ISSUE
     {
         public int ID { get; set; }
-
+        public int COMPANY_ID { get; set; }
+        public string ASSESSMENT_YEAR { get; set; }
         public String ISSUE { get; set; }
         [DataType(DataType.Date)]
         public DateTime? RAISED_DATE { get; set; }

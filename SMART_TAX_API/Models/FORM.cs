@@ -14,7 +14,7 @@ namespace SMART_TAX_API.Models
         public string LAST_NAME { get; set; }
         public string GENDER { get; set; }
         [DataType(DataType.Date)]
-        public DateTime DATE_OF_BIRTH { get; set; }
+        public DateTime? DATE_OF_BIRTH { get; set; }
         public string DESIGNATION { get; set; }
         public string FLAT { get; set; }
         public string NAME_OF_PREMISES { get; set; }
@@ -35,7 +35,7 @@ namespace SMART_TAX_API.Models
         public string PAN_OF_PARTY { get; set; }
         public string PARTICULARS_OF_ASSET { get; set; }
         [DataType(DataType.Date)]
-        public DateTime EXPECTED_DATE_OF_TRANSFER { get; set; }
+        public DateTime? EXPECTED_DATE_OF_TRANSFER { get; set; }
         public string PERIOD { get; set; }
         public string ADDITIONAL_INFO { get; set; }
         public string NATURE_OF_TRANSACTION { get; set; }

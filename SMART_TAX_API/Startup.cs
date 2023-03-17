@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -8,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using SMART_TAX_API.IServices;
 using SMART_TAX_API.Services;
@@ -15,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace SMART_TAX_API
@@ -36,6 +39,29 @@ namespace SMART_TAX_API
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SMART_TAX_API", Version = "v1" });
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Please enter a valid token",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    BearerFormat = "JWT",
+                    Scheme = "Bearer"
+                });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                {
+                new OpenApiSecurityScheme
+                {
+                Reference = new OpenApiReference
+                {
+                    Type=ReferenceType.SecurityScheme,
+                    Id="Bearer"
+                }
+                },
+                new string[]{}
+                }
+                });
             });
 
             services.AddCors(options =>
@@ -50,6 +76,22 @@ namespace SMART_TAX_API
                     });
             });
 
+            #region JWT
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = Configuration["Jwt:Issuer"],
+            ValidAudience = Configuration["Jwt:Issuer"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+            };
+            });
+            #endregion
             services.AddScoped<ICommonService, CommonService>();
             services.AddScoped<ICompanyService, CompanyService>();
             services.AddScoped<IFormService, FormService>();
@@ -57,6 +99,7 @@ namespace SMART_TAX_API
             services.AddScoped<IAuditService, AuditIssueService>();
             services.AddScoped<IBalanceSheetService, BalanceSheetService>();
             services.AddScoped<INotificationService, NotificationService>();
+            services.AddScoped<IAccountService, AccountService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -67,21 +110,22 @@ namespace SMART_TAX_API
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SMART_TAX_API v1"));
+
             }
 
             app.UseCors();
 
             app.UseStaticFiles();
-            app.UseStaticFiles(new StaticFileOptions()
-            {
-                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Resources")),
-                RequestPath = new PathString("/Resources")
-            });
+            //app.UseStaticFiles(new StaticFileOptions()
+            //{
+            //    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Resources")),
+            //    RequestPath = new PathString("/Resources")
+            //});
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

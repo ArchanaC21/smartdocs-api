@@ -45,7 +45,7 @@ namespace SMART_TAX_API.Controllers
             return Ok(JsonConvert.SerializeObject(_commonService.GetSystemTypeMasterDetails(ID)));
         }
 
-        [HttpPost("UpdateSystemTypeMaster")]
+        [HttpPut("UpdateSystemTypeMaster")]
         public ActionResult<Response<string>> UpdateSystemTypeMaster(SYSTEM_TYPE_MASTER request)
         {
             return Ok(_commonService.UpdateSystemTypeMaster(request));
@@ -71,6 +71,14 @@ namespace SMART_TAX_API.Controllers
             try
             {
                 var file = Request.Form.Files[0];
+
+                string upload = Path.Combine(_environment.ContentRootPath, "Resources");
+
+                if (!Directory.Exists(upload))
+                {
+                    Directory.CreateDirectory(upload);
+                }
+
                 var folderName = Path.Combine("Resources", "BalanceSheets");
                 if (!Directory.Exists(folderName))
                 {
