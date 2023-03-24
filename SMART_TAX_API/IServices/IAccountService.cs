@@ -15,11 +15,11 @@ namespace SMART_TAX_API.IServices
 
         Response<List<USER>> GetUserList();
 
-        Response<USER> GetUserDetails(int ID);
+        Response<USER> GetUserDetails(string ID);
 
         Response<string> UpdateUser(USER request);
 
-        Response<string> DeleteUser(int ID);
+        Response<string> DeleteUser(string ID);
 
         AuthenticationResponse AuthenticateUser(AuthenticationRequest request);
     }

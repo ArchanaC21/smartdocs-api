@@ -15,7 +15,13 @@ namespace SMART_TAX_API.Repository
         {
             try
             {
-                DataTable dataTable = SqlHelper.ExtecuteProcedureReturnDataTable(dbConn, "SP_NOTIFICATION");
+                SqlParameter[] parameters =
+                {
+                  new SqlParameter("@OPERATION", SqlDbType.VarChar, 250) { Value = "GET_NOTIFICATION_LIST" },
+
+                };
+
+                DataTable dataTable = SqlHelper.ExtecuteProcedureReturnDataTable(dbConn, "SP_NOTIFICATION", parameters);
                 List<NOTIFICATION> master = SqlHelper.CreateListFromTable<NOTIFICATION>(dataTable);
 
                 return master;
@@ -24,6 +30,25 @@ namespace SMART_TAX_API.Repository
             {
                 throw;
             }
+        }
+
+        public string GetNotificationCount(string connstring)
+        {
+            try
+            {
+                SqlParameter[] parameters =
+            {
+                new SqlParameter("@OPERATION", SqlDbType.NVarChar, 250) { Value = "GET_NOTIFICATION_COUNT" },
+
+            };
+
+                return SqlHelper.ExecuteProcedureReturnString(connstring, "SP_NOTIFICATION", parameters);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
         }
     }
 }

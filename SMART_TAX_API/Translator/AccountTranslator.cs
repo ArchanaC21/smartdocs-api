@@ -22,7 +22,7 @@ namespace SMART_TAX_API.Translator
             var item = new USER();
 
             if (reader.IsColumnExists("ID"))
-                item.ID = SqlHelper.GetNullableInt32(reader, "ID");
+                item.ID = SqlHelper.GetNullableString(reader, "ID");
 
             if (reader.IsColumnExists("USERNAME"))
                 item.USERNAME = SqlHelper.GetNullableString(reader, "USERNAME");
@@ -41,9 +41,6 @@ namespace SMART_TAX_API.Translator
 
             if (reader.IsColumnExists("EMAIL"))
                 item.EMAIL = SqlHelper.GetNullableString(reader, "EMAIL");
-
-            if (reader.IsColumnExists("COMPANY_ID"))
-                item.COMPANY_ID = SqlHelper.GetNullableInt32(reader, "COMPANY_ID");
 
             if (reader.IsColumnExists("ROLE"))
                 item.ROLE = SqlHelper.GetNullableString(reader, "ROLE");

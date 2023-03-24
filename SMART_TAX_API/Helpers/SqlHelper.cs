@@ -264,9 +264,9 @@ namespace SMART_TAX_API.Helpers
             return reader.IsDBNull(reader.GetOrdinal(colName)) ? default(bool) : Convert.ToBoolean(reader[colName]);
         }
 
-        public static DateTime GetDateTime(SqlDataReader reader, string colName)
+        public static DateTime? GetDateTime(SqlDataReader reader, string colName)
         {
-            return reader.IsDBNull(reader.GetOrdinal(colName)) ? default(DateTime) : Convert.ToDateTime(reader[colName]);
+            return reader.IsDBNull(reader.GetOrdinal(colName)) ? null : Convert.ToDateTime(reader[colName]);
         }
 
         //this method is to check wheater column exists or not in data reader

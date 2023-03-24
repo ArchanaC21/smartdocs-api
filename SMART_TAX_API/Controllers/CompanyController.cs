@@ -22,14 +22,14 @@ namespace SMART_TAX_API.Controllers
         {
             _companyService = companyService;
         }
-
+        [Authorize]
         [HttpPost("InsertCompanyMaster")]
         public ActionResult<Response<string>> InsertCompanyMaster(COMPANY request)
         {
             return Ok(_companyService.InsertCompanyMaster(request));
         }
 
-        [Authorize]
+        [AllowAnonymous]
         [HttpGet("GetCompany")]
         public ActionResult<Response<List<COMPANY>>> GetCompany()
         {

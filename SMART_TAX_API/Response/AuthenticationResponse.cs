@@ -9,7 +9,7 @@ namespace SMART_TAX_API.Response
     {
         public string Message { get; set; }
         public bool IsAuthenticated { get; set; }
-        public int Id { get; set; }
+        public string Id { get; set; }
         public string UserName { get; set; }
         public string Role { get; set; }
         public int CompanyId { get; set; }
