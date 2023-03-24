@@ -45,14 +45,11 @@ namespace SMART_TAX_API.Services
             response.IsAuthenticated = true;
             response.Id = result.ID;
             response.UserName = result.USERNAME;
-            response.Role = result.ROLE;
-            response.CompanyId = result.COMPANY_ID;
             var claims = new[] {
                         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                         
                         new Claim("role",result.ROLE),
                         new Claim("UserName",result.USERNAME),
-                        new Claim("company",result.COMPANY_ID.ToString()),
                         new Claim("expiry", DateTime.Now.AddMinutes(120).ToString("yyyyMMddHHmmss") )
                        
                         };
@@ -60,13 +57,13 @@ namespace SMART_TAX_API.Services
             return response;
         }
 
-        public Response<string> DeleteUser(int ID)
+        public Response<string> DeleteUser(string ID)
         {
             string dbConn = _config.GetConnectionString("ConnectionString");
 
             Response<string> response = new Response<string>();
 
-            if (ID == 0)
+            if (ID == "")
             {
                 response.ResponseCode = 500;
                 response.ResponseMessage = "Please provide ID ";
@@ -82,19 +79,28 @@ namespace SMART_TAX_API.Services
             return response;
         }
 
-        public Response<USER> GetUserDetails(int ID)
+        public Response<USER> GetUserDetails(string ID)
         {
             string dbConn = _config.GetConnectionString("ConnectionString");
 
             Response<USER> response = new Response<USER>();
             var data = DbClientFactory<AccountRepo>.Instance.GetUserDetails(dbConn, ID);
 
-            if (data != null)
+            if ((data != null) && (data.Tables[0].Rows.Count > 0))
             {
                 response.Succeeded = true;
                 response.ResponseCode = 200;
                 response.ResponseMessage = "Success";
-                response.Data = data;
+                USER detail = new USER();
+
+                detail = AccountRepo.GetSingleDataFromDataSet<USER>(data.Tables[0]);
+
+                if (data.Tables.Contains("Table1"))
+                {
+                    detail.USER_COMPANY = AccountRepo.GetListFromDataSet<USER_COMPANY>(data.Tables[1]);
+                }
+
+                response.Data = detail;
             }
             else
             {

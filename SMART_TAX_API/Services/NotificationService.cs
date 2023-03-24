@@ -20,6 +20,21 @@ namespace SMART_TAX_API.Services
             _config = config;
         }
 
+        public Response<int> GetNotificationCount()
+        {
+            string dbConn = _config.GetConnectionString("ConnectionString");
+
+            int Total = Convert.ToInt32(DbClientFactory<NotificationRepo>.Instance.GetNotificationCount(dbConn));
+
+            Response<int> response = new Response<int>();
+
+            response.Succeeded = true;
+            response.ResponseCode = 200;
+            response.Data = Total;
+
+            return response;
+        }
+
         public Response<List<NOTIFICATION>> notificationList()
         {
             string dbConn = _config.GetConnectionString("ConnectionString");

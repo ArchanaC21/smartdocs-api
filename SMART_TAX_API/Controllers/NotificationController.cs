@@ -28,5 +28,11 @@ namespace SMART_TAX_API.Controllers
             return Ok(JsonConvert.SerializeObject(_notificationService.notificationList()));
         }
 
+        [HttpGet("GetNotificationCount")]
+        public ActionResult<Response<int>> GetTotalDetentionCost()
+        {
+            return Ok(JsonConvert.SerializeObject(_notificationService.GetNotificationCount()));
+        }
+
     }
 }

@@ -37,7 +37,7 @@ namespace SMART_TAX_API.Controllers
         }
 
         [HttpGet("GetUserDetails")]
-        public ActionResult<Response<USER>> GetUserDetails(int ID)
+        public ActionResult<Response<USER>> GetUserDetails(string ID)
         {
             return Ok(JsonConvert.SerializeObject(_accountService.GetUserDetails(ID)));
         }
@@ -49,7 +49,7 @@ namespace SMART_TAX_API.Controllers
         }
 
         [HttpDelete("DeleteUser")]
-        public ActionResult<Response<string>> DeleteUser(int ID)
+        public ActionResult<Response<string>> DeleteUser(string ID)
         {
             return Ok(JsonConvert.SerializeObject(_accountService.DeleteUser(ID)));
         }

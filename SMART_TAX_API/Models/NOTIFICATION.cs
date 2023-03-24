@@ -15,6 +15,6 @@ namespace SMART_TAX_API.Models
         public string assessmentYear { get; set; }
         public string financialYr { get; set; }
         public string noticeName { get; set; }
-        public int lastResponseSubmittedOn { get; set; }
+        public long lastResponseSubmittedOn { get; set; }
     }
 }

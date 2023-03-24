@@ -24,6 +24,12 @@ namespace SMART_TAX_API.Translator
             if (reader.IsColumnExists("ID"))
                 item.ID = SqlHelper.GetNullableInt32(reader, "ID");
 
+            if (reader.IsColumnExists("COMPANY_ID"))
+                item.COMPANY_ID = SqlHelper.GetNullableInt32(reader, "COMPANY_ID");
+
+            if (reader.IsColumnExists("ASSESSMENT_YEAR"))
+                item.ASSESSMENT_YEAR = SqlHelper.GetNullableString(reader, "ASSESSMENT_YEAR");
+
             if (reader.IsColumnExists("ISSUE"))
                 item.ISSUE = SqlHelper.GetNullableString(reader, "ISSUE");
 

@@ -10,5 +10,6 @@ namespace SMART_TAX_API.IServices
     public interface INotificationService
     {
         Response<List<NOTIFICATION>> notificationList();
+        Response<int> GetNotificationCount();
     }
 }

@@ -25,12 +25,31 @@ namespace SMART_TAX_API.Repository
                   new SqlParameter("@EMPLOYEE_CODE", SqlDbType.NVarChar, 50) { Value = master.EMPLOYEE_CODE },
                   new SqlParameter("@DESIGNATION", SqlDbType.NVarChar, 50) { Value = master.DESIGNATION },
                   new SqlParameter("@EMAIL", SqlDbType.NVarChar, 250) { Value = master.EMAIL },
-                  new SqlParameter("@COMPANY_ID", SqlDbType.Int) { Value = master.COMPANY_ID },
                   new SqlParameter("@ROLE", SqlDbType.NVarChar, 50) { Value = master.ROLE },
                   new SqlParameter("@STATUS", SqlDbType.Bit) { Value = master.STATUS },
                 };
 
-                SqlHelper.ExecuteProcedureReturnString(connstring, "SP_MST_USER", parameters);
+                var UserID = SqlHelper.ExecuteProcedureReturnString(connstring, "SP_MST_USER", parameters);
+
+                DataTable tbl = new DataTable();
+                tbl.Columns.Add(new DataColumn("USER_ID", typeof(string)));
+                tbl.Columns.Add(new DataColumn("COMPANY_ID", typeof(int)));
+
+                foreach (var i in master.USER_COMPANY)
+                {
+                    DataRow dr = tbl.NewRow();
+
+                    dr["USER_ID"] = UserID;
+                    dr["COMPANY_ID"] = i.ID;
+
+                    tbl.Rows.Add(dr);
+                }
+
+                string[] columns = new string[2];
+                columns[0] = "USER_ID";
+                columns[1] = "COMPANY_ID";
+
+                SqlHelper.ExecuteProcedureBulkInsert(connstring, tbl, "USER_COMPANY_MAPPING", columns);
             }
             catch (Exception)
             {
@@ -59,24 +78,35 @@ namespace SMART_TAX_API.Repository
             }
         }
 
-        public USER GetUserDetails(string connstring, int ID)
+        public DataSet GetUserDetails(string connstring, string ID)
         {
             try
             {
                 SqlParameter[] parameters =
                 {
 
-                   new SqlParameter("@ID", SqlDbType.Int) { Value = ID },
+                   new SqlParameter("@ID", SqlDbType.NVarChar, 50) { Value = ID },
                    new SqlParameter("@OPERATION", SqlDbType.NVarChar, 50) { Value = "GET_USER_BY_ID" }
                 };
 
-                return SqlHelper.ExtecuteProcedureReturnData<USER>(connstring, "SP_MST_USER", r => r.TranslateAsUser(), parameters);
+                return SqlHelper.ExtecuteProcedureReturnDataSet(connstring, "SP_MST_USER", parameters);
+
             }
             catch (Exception)
             {
 
                 throw;
             }
+        }
+
+        public static T GetSingleDataFromDataSet<T>(DataTable dataTable) where T : new()
+        {
+            return SqlHelper.CreateItemFromRow<T>(dataTable.Rows[0]);
+        }
+
+        public static List<T> GetListFromDataSet<T>(DataTable dataTable) where T : new()
+        {
+            return SqlHelper.CreateListFromTable<T>(dataTable);
         }
 
         public void UpdateUser(string connstring, USER master)
@@ -93,7 +123,6 @@ namespace SMART_TAX_API.Repository
                   new SqlParameter("@EMPLOYEE_CODE", SqlDbType.NVarChar, 50) { Value = master.EMPLOYEE_CODE },
                   new SqlParameter("@DESIGNATION", SqlDbType.NVarChar, 50) { Value = master.DESIGNATION },
                   new SqlParameter("@EMAIL", SqlDbType.NVarChar, 250) { Value = master.EMAIL },
-                  new SqlParameter("@COMPANY_ID", SqlDbType.Int) { Value = master.COMPANY_ID },
                   new SqlParameter("@ROLE", SqlDbType.NVarChar, 50) { Value = master.ROLE },
                   new SqlParameter("@STATUS", SqlDbType.Bit) { Value = master.STATUS },
                 };
@@ -107,11 +136,11 @@ namespace SMART_TAX_API.Repository
             }
         }
 
-        public void DeleteUser(string connstring, int ID)
+        public void DeleteUser(string connstring, string ID)
         {
             SqlParameter[] parameters =
             {
-              new SqlParameter("@ID", SqlDbType.Int) { Value = ID },
+              new SqlParameter("@ID", SqlDbType.NVarChar, 50) { Value = ID },
                new SqlParameter("@OPERATION", SqlDbType.NVarChar, 50) { Value = "DELETE_USER" }
             };
 
