@@ -22,7 +22,7 @@ namespace SMART_TAX_API.Controllers
         {
             _companyService = companyService;
         }
-        [Authorize]
+        //[Authorize]
         [HttpPost("InsertCompanyMaster")]
         public ActionResult<Response<string>> InsertCompanyMaster(COMPANY request)
         {

@@ -20,6 +20,21 @@ namespace SMART_TAX_API.Services
             _config = config;
         }
 
+        public Response<string> ChangeNotificationStatus(int ID)
+        {
+            string dbConn = _config.GetConnectionString("ConnectionString");
+
+            DbClientFactory<NotificationRepo>.Instance.ChangeNotificationstatus(dbConn, ID);
+
+            Response<string> response = new Response<string>();
+
+            response.Succeeded = true;
+            response.ResponseCode = 200;
+            response.Message = "Updated Successfully";
+
+            return response;
+        }
+
         public Response<int> GetNotificationCount()
         {
             string dbConn = _config.GetConnectionString("ConnectionString");
@@ -31,6 +46,30 @@ namespace SMART_TAX_API.Services
             response.Succeeded = true;
             response.ResponseCode = 200;
             response.Data = Total;
+
+            return response;
+        }
+
+        public Response<NOTIFICATION> GetNotificationDetails(int ID)
+        {
+            string dbConn = _config.GetConnectionString("ConnectionString");
+
+            Response<NOTIFICATION> response = new Response<NOTIFICATION>();
+            var data = DbClientFactory<NotificationRepo>.Instance.GetNotificationDetails(dbConn, ID);
+
+            if (data != null)
+            {
+                response.Succeeded = true;
+                response.ResponseCode = 200;
+                response.ResponseMessage = "Success";
+                response.Data = data;
+            }
+            else
+            {
+                response.Succeeded = false;
+                response.ResponseCode = 500;
+                response.ResponseMessage = "No Data";
+            }
 
             return response;
         }
@@ -58,5 +97,6 @@ namespace SMART_TAX_API.Services
 
             return response;
         }
+
     }
 }

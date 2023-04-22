@@ -1,5 +1,6 @@
 ﻿using SMART_TAX_API.Helpers;
 using SMART_TAX_API.Models;
+using SMART_TAX_API.Translator;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -50,5 +51,48 @@ namespace SMART_TAX_API.Repository
             }
 
         }
+
+        public NOTIFICATION GetNotificationDetails(string connstring, int ID)
+        {
+            try
+            {
+                SqlParameter[] parameters =
+                {
+
+                   new SqlParameter("@proceedingReqId", SqlDbType.NVarChar, 255) { Value = ID },
+                   new SqlParameter("@OPERATION", SqlDbType.NVarChar, 50) { Value = "GET_NOTIFICATION_DETAILS" }
+                };
+
+                return SqlHelper.ExtecuteProcedureReturnData<NOTIFICATION>(connstring, "SP_NOTIFICATION", r => r.TranslateAsNotification(), parameters);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+
+        public void ChangeNotificationstatus(string connstring, int ID)
+        {
+            try
+            {
+                SqlParameter[] parameters =
+                {
+
+                   new SqlParameter("@proceedingReqId", SqlDbType.NVarChar, 255) { Value = ID },
+                   new SqlParameter("@OPERATION", SqlDbType.NVarChar, 50) { Value = "CHANGE_STATUS" }
+                };
+
+                SqlHelper.ExecuteProcedureReturnString(connstring, "SP_NOTIFICATION", parameters);
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
     }
 }
