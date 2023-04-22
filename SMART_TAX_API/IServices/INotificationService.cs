@@ -11,5 +11,7 @@ namespace SMART_TAX_API.IServices
     {
         Response<List<NOTIFICATION>> notificationList();
         Response<int> GetNotificationCount();
+        Response<NOTIFICATION> GetNotificationDetails(int ID);
+        Response<string> ChangeNotificationStatus(int ID);
     }
 }

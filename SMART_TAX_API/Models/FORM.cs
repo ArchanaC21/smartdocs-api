@@ -47,7 +47,7 @@ namespace SMART_TAX_API.Models
     {
         public int ID { get; set; }
         public int SECTION_ID { get; set; }
-        public int ASSESSMENT_YEAR { get; set; }
+        public int ASSESSMENT_YEAR { get; set; } 
         public string DEMAND_SECTION { get; set; }
         public decimal OUTSTANDING_DEMAND { get; set; }
         public string PARTICULARS_OF_STAY { get; set; }

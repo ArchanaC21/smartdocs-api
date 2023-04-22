@@ -34,5 +34,16 @@ namespace SMART_TAX_API.Controllers
             return Ok(JsonConvert.SerializeObject(_notificationService.GetNotificationCount()));
         }
 
+        [HttpGet("GetNotificationDetails")]
+        public ActionResult<Response<NOTIFICATION>> GetNotificationDetails(int ID)
+        {
+            return Ok(JsonConvert.SerializeObject(_notificationService.GetNotificationDetails(ID)));
+        }
+
+        [HttpGet("ChangeNotificationStatus")]
+        public ActionResult<Response<string>> ChangeNotificationStatus(int ID)
+        {
+            return Ok(JsonConvert.SerializeObject(_notificationService.ChangeNotificationStatus(ID)));
+        }
     }
 }
