@@ -60,5 +60,35 @@ namespace SMART_TAX_API.Controllers
             return Ok(_accountService.AuthenticateUser(request));
         }
 
+        [HttpPost("InsertUserMaster")]
+        public ActionResult<Response<string>> InsertUserMaster(List<USER_MASTER> request)
+        {
+            return Ok(_accountService.InsertUserMaster(request));
+        }
+
+        [HttpPost("InsertSingleUser")]
+        public ActionResult<Response<string>> InsertSingleUser(USER_MASTER request)
+        {
+            return Ok(_accountService.CreateSingleUser(request));
+        }
+
+        [HttpGet("GetUserMasterList")]
+        public ActionResult<Response<List<USER_MASTER>>> GetUserMasterList()
+        {
+            return Ok(JsonConvert.SerializeObject(_accountService.GetUserMasterList()));
+        }
+
+        [HttpGet("GetUserMasterDetails")]
+        public ActionResult<Response<USER_MASTER>> GetUserMasterDetails(string ID)
+        {
+            return Ok(JsonConvert.SerializeObject(_accountService.GetUserMasterDetails(ID)));
+        }
+
+        [HttpPut("UpdateUserMaster")]
+        public ActionResult<Response<string>> UpdateUserMaster(USER_MASTER request)
+        {
+            return Ok(_accountService.UpdateUserMaster(request));
+        }
+
     }
 }

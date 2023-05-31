@@ -11,11 +11,13 @@ namespace SMART_TAX_API.Models
         public string proceedingName { get; set; }
         public string pan { get; set; }
         public string nameOfAssesse { get; set; }
-        public string itrType { get; set; }
         public string assessmentYear { get; set; }
         public string financialYr { get; set; }
         public string noticeName { get; set; }
-        public string acknowledgementNo { get; set; }
-        public long lastResponseSubmittedOn { get; set; }
+        public string proceedingStatus { get; set; }
+        public string documentReferenceId { get; set; }
+        public string description { get; set; }
+        public long? issuedOn { get; set; }
+        public long? responseDueDate { get; set; }
     }
 }

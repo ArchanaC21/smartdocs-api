@@ -24,4 +24,16 @@ namespace SMART_TAX_API.Models
         public int ID { get; set; }
         public string NAME { get; set; }
     }
+
+    public class USER_MASTER
+    {
+        public int ID { get; set; }
+        public string PAN { get; set; }
+        public string PASSWORD { get; set; }
+        public string COMPANY_NAME { get; set; }
+        public string ENCRYPT_PASSWORD { get; set; }
+        public bool IS_ACTIVE { get; set; }
+    }
+
+    
 }
