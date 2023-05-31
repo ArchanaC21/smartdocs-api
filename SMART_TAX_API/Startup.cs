@@ -105,12 +105,21 @@ namespace SMART_TAX_API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            if (env.IsDevelopment() || env.IsProduction())
             {
-                app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SMART_TAX_API v1"));
-
+                if (env.IsDevelopment())
+                {
+                    app.UseDeveloperExceptionPage();
+                    app.UseSwagger();
+                    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SMART_TAX_API v1"));
+                }
+                else
+                {
+                    app.UseSwaggerUI(c =>
+                    {
+                        c.SwaggerEndpoint("v1/swagger.json", "My API V1");
+                    });
+                }
             }
 
             app.UseCors();

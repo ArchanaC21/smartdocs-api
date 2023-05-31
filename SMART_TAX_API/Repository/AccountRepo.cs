@@ -159,5 +159,132 @@ namespace SMART_TAX_API.Repository
             return SqlHelper.ExtecuteProcedureReturnData<USER>(connstring, "SP_MST_USER", r => r.TranslateAsUser(), parameters);
         }
 
+        public void InsertUserMaster(string connstring, List<USER_MASTER> info)
+        {
+            try
+            {
+                DataTable tbl = new DataTable();
+                tbl.Columns.Add(new DataColumn("PAN", typeof(string)));
+                tbl.Columns.Add(new DataColumn("PASSWORD", typeof(string)));
+                tbl.Columns.Add(new DataColumn("COMPANY_NAME", typeof(string)));
+                tbl.Columns.Add(new DataColumn("ENCRYPT_PASSWORD", typeof(string)));
+                tbl.Columns.Add(new DataColumn("IS_ACTIVE", typeof(bool)));
+
+                foreach (var i in info)
+                {
+                    DataRow dr = tbl.NewRow();
+
+                    dr["PAN"] = i.PAN;
+                    dr["PASSWORD"] = i.PASSWORD;
+                    dr["COMPANY_NAME"] = i.COMPANY_NAME;
+                    dr["ENCRYPT_PASSWORD"] = i.ENCRYPT_PASSWORD;
+                    dr["IS_ACTIVE"] = 1;
+
+                    tbl.Rows.Add(dr);
+                }
+
+                string[] columns = new string[5];
+                columns[0] = "PAN";
+                columns[1] = "PASSWORD";
+                columns[2] = "COMPANY_NAME";
+                columns[3] = "ENCRYPT_PASSWORD";
+                columns[4] = "IS_ACTIVE";
+
+                SqlHelper.ExecuteProcedureBulkInsert(connstring, tbl, "USER_MASTER", columns);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public void CreateSingleUser(string connstring, USER_MASTER master)
+        {
+            try
+            {
+                SqlParameter[] parameters =
+                {
+                  new SqlParameter("@OPERATION", SqlDbType.NVarChar,50) { Value = "CREATE_USER_MASTER" },
+                  new SqlParameter("@PAN", SqlDbType.NVarChar,250) { Value = master.PAN},
+                  new SqlParameter("@PASSWORD", SqlDbType.NVarChar, 250) { Value = master.PASSWORD },
+                  new SqlParameter("@COMPANY", SqlDbType.NVarChar, 250) { Value = master.COMPANY_NAME },
+                  new SqlParameter("@IS_ACTIVE", SqlDbType.NVarChar, 250) { Value = master.IS_ACTIVE },
+                };
+
+                SqlHelper.ExecuteProcedureReturnString(connstring, "SP_MST_USER", parameters);
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public List<USER_MASTER> GetUserMasterList(string dbConn)
+        {
+            try
+            {
+                SqlParameter[] parameters =
+                {
+                  new SqlParameter("@OPERATION", SqlDbType.NVarChar, 50) { Value = "GET_USER_MASTER" },
+                };
+
+                DataTable dataTable = SqlHelper.ExtecuteProcedureReturnDataTable(dbConn, "SP_MST_USER", parameters);
+                List<USER_MASTER> master = SqlHelper.CreateListFromTable<USER_MASTER>(dataTable);
+
+                return master;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public USER_MASTER GetUserMasterDetails(string connstring, string ID)
+        {
+            try
+            {
+                SqlParameter[] parameters =
+                {
+
+                   new SqlParameter("@ID", SqlDbType.NVarChar, 50) { Value = ID },
+                   new SqlParameter("@OPERATION", SqlDbType.NVarChar, 50) { Value = "GET_USER_MASTER_BY_ID" }
+                };
+
+                return SqlHelper.ExtecuteProcedureReturnData<USER_MASTER>(connstring, "SP_MST_USER", r => r.TranslateAsUserMaster(), parameters);
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public void UpdateUserMaster(string connstring, USER_MASTER master)
+        {
+            try
+            {
+                SqlParameter[] parameters =
+               {
+                  new SqlParameter("@OPERATION", SqlDbType.NVarChar,50) { Value = "UPDATE_USER_MASTER" },
+                  new SqlParameter("@ID", SqlDbType.NVarChar,250) { Value = master.ID},
+                  new SqlParameter("@PAN", SqlDbType.NVarChar,250) { Value = master.PAN},
+                  new SqlParameter("@PASSWORD", SqlDbType.NVarChar, 250) { Value = master.PASSWORD },
+                  new SqlParameter("@COMPANY", SqlDbType.NVarChar, 250) { Value = master.COMPANY_NAME },
+                  new SqlParameter("@IS_ACTIVE", SqlDbType.NVarChar, 50) { Value = master.IS_ACTIVE },
+                };
+
+                SqlHelper.ExecuteProcedureReturnString(connstring, "SP_MST_USER", parameters);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
     }
 }

@@ -259,9 +259,9 @@ namespace SMART_TAX_API.Helpers
             return reader.IsDBNull(reader.GetOrdinal(colName)) ? 0 : Convert.ToInt32(reader[colName]);
         }
 
-        public static long GetNullableLong(SqlDataReader reader, string colName)
+        public static Nullable<long> GetNullableLong(SqlDataReader reader, string colName)
         {
-            return reader.IsDBNull(reader.GetOrdinal(colName)) ? 0 : Convert.ToInt64(reader[colName]);
+            return reader.IsDBNull(reader.GetOrdinal(colName)) ? null : Convert.ToInt64(reader[colName]);
         }
 
         public static bool GetBoolean(SqlDataReader reader, string colName)

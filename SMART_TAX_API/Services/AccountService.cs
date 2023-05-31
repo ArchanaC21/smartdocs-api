@@ -57,6 +57,21 @@ namespace SMART_TAX_API.Services
             return response;
         }
 
+        public Response<string> CreateSingleUser(USER_MASTER request)
+        {
+            string dbConn = _config.GetConnectionString("ConnectionString");
+
+            DbClientFactory<AccountRepo>.Instance.CreateSingleUser(dbConn, request);
+
+
+            Response<string> response = new Response<string>();
+            response.Succeeded = true;
+            response.ResponseMessage = "Master saved Successfully.";
+            response.ResponseCode = 200;
+
+            return response;
+        }
+
         public Response<string> DeleteUser(string ID)
         {
             string dbConn = _config.GetConnectionString("ConnectionString");
@@ -136,11 +151,74 @@ namespace SMART_TAX_API.Services
             return response;
         }
 
+        public Response<USER_MASTER> GetUserMasterDetails(string ID)
+        {
+            string dbConn = _config.GetConnectionString("ConnectionString");
+
+            Response<USER_MASTER> response = new Response<USER_MASTER>();
+            var data = DbClientFactory<AccountRepo>.Instance.GetUserMasterDetails(dbConn, ID);
+
+            if (data != null)
+            {
+                response.Succeeded = true;
+                response.ResponseCode = 200;
+                response.ResponseMessage = "Success";
+                response.Data = data;
+            }
+            else
+            {
+                response.Succeeded = false;
+                response.ResponseCode = 500;
+                response.ResponseMessage = "No Data";
+            }
+
+            return response;
+        }
+
+        public Response<List<USER_MASTER>> GetUserMasterList()
+        {
+            string dbConn = _config.GetConnectionString("ConnectionString");
+
+            Response<List<USER_MASTER>> response = new Response<List<USER_MASTER>>();
+            var data = DbClientFactory<AccountRepo>.Instance.GetUserMasterList(dbConn);
+
+            if (data != null)
+            {
+                response.Succeeded = true;
+                response.ResponseCode = 200;
+                response.ResponseMessage = "Success";
+                response.Data = data;
+            }
+            else
+            {
+                response.Succeeded = false;
+                response.ResponseCode = 500;
+                response.ResponseMessage = "No Data";
+            }
+
+            return response;
+        }
+
         public Response<string> InsertUser(USER request)
         {
             string dbConn = _config.GetConnectionString("ConnectionString");
 
             DbClientFactory<AccountRepo>.Instance.InsertUser(dbConn, request);
+
+
+            Response<string> response = new Response<string>();
+            response.Succeeded = true;
+            response.ResponseMessage = "Master saved Successfully.";
+            response.ResponseCode = 200;
+
+            return response;
+        }
+
+        public Response<string> InsertUserMaster(List<USER_MASTER> request)
+        {
+            string dbConn = _config.GetConnectionString("ConnectionString");
+
+            DbClientFactory<AccountRepo>.Instance.InsertUserMaster(dbConn, request);
 
 
             Response<string> response = new Response<string>();
@@ -165,6 +243,19 @@ namespace SMART_TAX_API.Services
             return response;
         }
 
+        public Response<string> UpdateUserMaster(USER_MASTER request)
+        {
+            string dbConn = _config.GetConnectionString("ConnectionString");
+
+            Response<string> response = new Response<string>();
+            DbClientFactory<AccountRepo>.Instance.UpdateUserMaster(dbConn, request);
+
+            response.Succeeded = true;
+            response.ResponseMessage = "Master updated Successfully.";
+            response.ResponseCode = 200;
+
+            return response;
+        }
 
         private string GenerateJSONWebToken(Claim[] claims)
         {

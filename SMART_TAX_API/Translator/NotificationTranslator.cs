@@ -33,9 +33,6 @@ namespace SMART_TAX_API.Translator
             if (reader.IsColumnExists("nameOfAssesse"))
                 item.nameOfAssesse = SqlHelper.GetNullableString(reader, "nameOfAssesse");
 
-            if (reader.IsColumnExists("itrType"))
-                item.itrType = SqlHelper.GetNullableString(reader, "itrType");
-
             if (reader.IsColumnExists("assessmentYear"))
                 item.assessmentYear = SqlHelper.GetNullableString(reader, "assessmentYear");
 
@@ -45,11 +42,20 @@ namespace SMART_TAX_API.Translator
             if (reader.IsColumnExists("noticeName"))
                 item.noticeName = SqlHelper.GetNullableString(reader, "noticeName");
 
-            if (reader.IsColumnExists("acknowledgementNo"))
-                item.acknowledgementNo = SqlHelper.GetNullableString(reader, "acknowledgementNo");
+            if (reader.IsColumnExists("proceedingStatus"))
+                item.proceedingStatus = SqlHelper.GetNullableString(reader, "proceedingStatus");
 
-            if (reader.IsColumnExists("lastResponseSubmittedOn"))
-                item.lastResponseSubmittedOn = SqlHelper.GetNullableLong(reader, "lastResponseSubmittedOn");
+            if (reader.IsColumnExists("documentReferenceId"))
+                item.documentReferenceId = SqlHelper.GetNullableString(reader, "documentReferenceId");
+
+            if (reader.IsColumnExists("description"))
+                item.description = SqlHelper.GetNullableString(reader, "description");
+
+            if (reader.IsColumnExists("issuedOn"))
+                item.issuedOn = SqlHelper.GetNullableLong(reader, "issuedOn");
+
+            //if (reader.IsColumnExists("responseDueDate"))
+            //    item.responseDueDate = SqlHelper.GetNullableLong(reader, "responseDueDate");
 
 
             return item;

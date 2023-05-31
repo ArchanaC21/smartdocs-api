@@ -51,5 +51,34 @@ namespace SMART_TAX_API.Translator
             
             return item;
         }
+
+        public static USER_MASTER TranslateAsUserMaster(this SqlDataReader reader, bool isList = false)
+        {
+            if (!isList)
+            {
+                if (!reader.HasRows)
+                    return null;
+                reader.Read();
+            }
+
+            var item = new USER_MASTER();
+
+            if (reader.IsColumnExists("ID"))
+                item.ID = SqlHelper.GetNullableInt32(reader, "ID");
+
+            if (reader.IsColumnExists("PAN"))
+                item.PAN = SqlHelper.GetNullableString(reader, "PAN");
+
+            if (reader.IsColumnExists("PASSWORD"))
+                item.PASSWORD = SqlHelper.GetNullableString(reader, "PASSWORD");
+
+            if (reader.IsColumnExists("COMPANY_NAME"))
+                item.COMPANY_NAME = SqlHelper.GetNullableString(reader, "COMPANY_NAME");
+
+            if (reader.IsColumnExists("IS_ACTIVE"))
+                item.IS_ACTIVE = SqlHelper.GetBoolean(reader, "IS_ACTIVE");
+
+            return item;
+        }
     }
 }

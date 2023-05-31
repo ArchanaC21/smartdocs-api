@@ -22,5 +22,15 @@ namespace SMART_TAX_API.IServices
         Response<string> DeleteUser(string ID);
 
         AuthenticationResponse AuthenticateUser(AuthenticationRequest request);
+
+        Response<string> InsertUserMaster(List<USER_MASTER> request);
+
+        Response<string> CreateSingleUser(USER_MASTER request);
+
+        Response<List<USER_MASTER>> GetUserMasterList();
+
+        Response<USER_MASTER> GetUserMasterDetails(string ID);
+
+        Response<string> UpdateUserMaster(USER_MASTER request);
     }
 }
